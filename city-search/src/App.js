@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ZipCard from './components/ZipCard';
+import CityCard from './components/CityCard';
 
 function App() {
 
   const [data, setData] = useState([])
 
-  let url = `http://ctp-zip-api.herokuapp.com/zip/10312`
+  let url = `http://ctp-zip-api.herokuapp.com/city/`;
+  let givenCity;
+  const cityInput = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newUrl = url + event.target.value;
-    console.log(event.target.value);
+
+    givenCity = cityInput.current.value;
+    console.log(givenCity) 
+    const newUrl = url + givenCity;
+  
     console.log(newUrl)
   }
-
+//Not sure why this isn't working 
+//it finds the json data and returns the proper url in the browser console so im assuming 
+//the issue isn't here its some how with the return ??
 
   const getData = async () => {
-    console.log(url)
-    await axios.get(url)
+     //await axios.get(`http://ctp-zip-api.herokuapp.com/city/${givenCity}`)
+    await axios.get(`http://ctp-zip-api.herokuapp.com/city/BROOKLYN`)
       .then(res => {
         setData(res.data)
       })
@@ -34,25 +41,23 @@ function App() {
   return (
      <div>
         <div className="p-5 bg-dark fs-1">
-          <div className="text-light text-center"><b>ZIPCODE</b></div>
+          <div className="text-light text-center"><b>CITY NAME(ONLY ACCEPTS CAPITALIZED ENTRIES</b></div>
         </div>
 
         <div className="container d-flex justify-content-center">
-          <div className="m-3">ZipCode Information</div>
+          <div className="m-3">City Information</div>
           <form className="m-3">
-            <input type="text"></input>
+            <input ref={cityInput} type="text"></input>
             <button onClick={handleSubmit}>Submit</button>
           </form>
         </div>
 
-        <div className="container d-flex justify-content-center">
+        <div className="row">
           {
             data.map(element => (
-              <div class="row justify-content-md-center">
                 < div key={element.RecordNumber} >
-                  <ZipCard zipValue={element} />
+                  <CityCard cityValue={element} />
                 </div>
-              </div>
             )
             )
           }

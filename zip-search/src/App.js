@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios'
 
 
@@ -9,19 +9,23 @@ function App() {
 
   const [data, setData] = useState([])
 
-  let url = `http://ctp-zip-api.herokuapp.com/zip/10312`
-
+  let url = `http://ctp-zip-api.herokuapp.com/zip/`
+  const zipInput = useRef();
+  let givenZip;
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newUrl = url + event.target.value;
-    console.log(event.target.value);
+    
+    givenZip = zipInput.current.value;
+    console.log(givenZip) 
+    const newUrl = url + givenZip;
+  
     console.log(newUrl)
   }
 
 
   const getData = async () => {
-    console.log(url)
-    await axios.get(url)
+    //await axios.get(`http://ctp-zip-api.herokuapp.com/zip/${givenZip}`)
+    await axios.get(`http://ctp-zip-api.herokuapp.com/zip/10016`)
       .then(res => {
         setData(res.data)
       })
@@ -40,15 +44,15 @@ function App() {
         <div className="container d-flex justify-content-center">
           <div className="m-3">ZipCode Information</div>
           <form className="m-3">
-            <input type="text"></input>
+            <input ref={zipInput} type="text"></input>
             <button onClick={handleSubmit}>Submit</button>
           </form>
         </div>
 
-        <div className="container d-flex justify-content-center">
+        <div className="container">
           {
             data.map(element => (
-              <div class="row justify-content-md-center">
+              <div class="row">
                 < div key={element.RecordNumber} >
                   <ZipCard zipValue={element} />
                 </div>
