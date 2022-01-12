@@ -52,7 +52,7 @@ function App() {
         <div className="container">
           {
             data.map(element => (
-              <div class="row">
+              <div className="row">
                 < div key={element.RecordNumber} >
                   <ZipCard zipValue={element} />
                 </div>
