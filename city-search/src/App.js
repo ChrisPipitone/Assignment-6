@@ -21,14 +21,15 @@ function App() {
     const newUrl = url + givenCity;
   
     console.log(newUrl)
+    getData();
   }
 //Not sure why this isn't working 
 //it finds the json data and returns the proper url in the browser console so im assuming 
 //the issue isn't here its some how with the return ??
 
   const getData = async () => {
-     //await axios.get(`http://ctp-zip-api.herokuapp.com/city/${givenCity}`)
-    await axios.get(`http://ctp-zip-api.herokuapp.com/city/BROOKLYN`)
+     await axios.get(`http://ctp-zip-api.herokuapp.com/city/${givenCity}`)
+    // axios.get(`http://ctp-zip-api.herokuapp.com/city/BROOKLYN`)
       .then(res => {
         setData(res.data)
       })

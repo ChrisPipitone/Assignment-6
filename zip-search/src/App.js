@@ -20,12 +20,13 @@ function App() {
     const newUrl = url + givenZip;
   
     console.log(newUrl)
+    getData();
   }
 
 
   const getData = async () => {
-    //await axios.get(`http://ctp-zip-api.herokuapp.com/zip/${givenZip}`)
-    await axios.get(`http://ctp-zip-api.herokuapp.com/zip/10016`)
+    await axios.get(`http://ctp-zip-api.herokuapp.com/zip/${givenZip}`)
+    //await axios.get(`http://ctp-zip-api.herokuapp.com/zip/10016`)
       .then(res => {
         setData(res.data)
       })
